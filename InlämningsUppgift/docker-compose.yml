@@ -1,0 +1,42 @@
+services:
+  customer-db:
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: customerdb
+    volumes:
+      - customer-db-data:/var/lib/mysql
+
+  booking-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookingdb
+    volumes:
+      - booking-db-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  customer-service:
+    build: ./customer-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - customer-db
+
+  booking-service:
+    build: ./booking-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - booking-db
+      - customer-service
+
+volumes:
+  customer-db-data:
+  booking-db-data:
