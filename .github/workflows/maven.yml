@@ -45,6 +45,12 @@ jobs:
       if: github.event_name == 'push'
       run: echo ${{secrets.DOCKERHUB_TOKEN}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
 
+    - name: Build and push docker image
+      if: github.event_name == 'push'
+      run: |
+          docker build -t emildrougge/devops-review-service:latest .
+          docker push emildrougge/devops-review-service:latest
+
       env:
         SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/customerdb
         SPRING_DATASOURCE_USERNAME: root
