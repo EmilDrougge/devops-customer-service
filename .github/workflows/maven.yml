@@ -43,7 +43,7 @@ jobs:
 
     - name: Log in to docker hub
       if: github.event_name == 'push'
-      run: echo ${{secrets.DOCKERHUB_TOKEN}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password
+      run: echo ${{secrets.DOCKERHUB_TOKEN}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
 
       env:
         SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/customerdb
