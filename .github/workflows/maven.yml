@@ -48,8 +48,8 @@ jobs:
     - name: Build and push docker image
       if: github.event_name == 'push'
       run: |
-          docker build -t emildrougge/devops-review-service:latest .
-          docker push emildrougge/devops-review-service:latest
+          docker build -t emildrougge/devops-customer-service:latest .
+          docker push emildrougge/devops-customer-service:latest
 
       env:
         SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/customerdb
